@@ -25,7 +25,7 @@ class YaUploader:
             if i['file_name'] not in exist_files:
                 file_name = i['file_name']
             elif f'{i["likes"]}_{date}.jpg' not in exist_files:
-                file_name = f'{i["likes"]}_{date}.jpg.jpg'
+                file_name = f'{i["likes"]}_{date}.jpg'
             else:
                 print(f'Уже существуют файлы {i["file_name"]} и {i["likes"]}_{date}.jpg в папке {vk_id}')
                 continue
