@@ -12,6 +12,7 @@ def create_json(file_name, size, file_path):
 
 def top_vk_photos(vk_id: str, max_images=5):
     files = []
+    album = 'profile'
     vk_token = 'vk1.a.3PUEDymMQ9XJziADuP1AapWqsWa1c1AARVGtumN5CgV8LW6hlWPpCKRLKuhdDduu9fSVLXfAhZSM_' \
                'pUi98rVQvTJYvQPNqQ3TiRjU4oBTgsbk1fB75CR8_dfm27bp2WGxlaN7prnCRTxYtzygeLNDo4PYMGeqc6b' \
                'puPAduIElw9u49RUeKC_FMa1TgWUi0nK'
@@ -20,7 +21,7 @@ def top_vk_photos(vk_id: str, max_images=5):
     params = {'access_token': vk_token,
               'v': version,
               'users_id': vk_id,
-              'album_id': 'profile',
+              'album_id': album,
               'photo_sizes': 1
               }
     response = requests.get(f'{url}/photos.get', params={**params, 'extended': 1})

@@ -11,7 +11,13 @@ def main():
             return
         elif cloud == 'google' or cloud == 'yandex':
             id_vk = input('Введите id пользователя VK: ')
-            files = vk.top_vk_photos(id_vk)
+            max_photo = input('Ввдите количество фото (по умолчанию будет выгружаться 5): ')
+            if type(int(max_photo)) != int or len(max_photo.split()) > 1:
+                print('Error')
+                files = vk.top_vk_photos(id_vk)
+            else:
+                print('Excellent')
+                files = vk.top_vk_photos(id_vk, max_photo)
             if cloud == 'yandex':
                 token = input('Введите Ваш токен YandexDisk: ')
                 ya_uploader = yandex_disk.YaUploader(token)
