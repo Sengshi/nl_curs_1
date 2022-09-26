@@ -12,7 +12,7 @@ def main():
         elif cloud == 'google' or cloud == 'yandex':
             id_vk = input('Введите id пользователя VK: ')
             max_photo = input('Ввдите количество фото (по умолчанию будет выгружаться 5): ')
-            if type(int(max_photo)) != int or len(max_photo.split()) > 1:
+            if not max_photo.isnumeric():
                 print('Error')
                 files = vk.top_vk_photos(id_vk)
             else:
