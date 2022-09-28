@@ -1,34 +1,43 @@
 import requests
+from config import vk_token, version
 
 
-def create_json(file_name, size, file_path):
-    json_data = {
-        'file_name': file_name,
-        'size': size,
-        'file_path': file_path,
-    }
-    return json_data
+class VK:
+    def __init__(self, vk_id):
+        self.params = {
+            'access_token': vk_token,
+            'v': version,
+            'owner_id': vk_id,
+        }
+        self.url = 'https://api.vk.com/method'
+
+    def get_albums(self):
+        albums = [{'profile': 'Photo profiles'}]
+        res_albums = requests.get(f'{self.url}/photos.getAlbums', params={**self.params})
+        for i in res_albums.json()['response']['items']:
+            albums.append({i['id']: i['title']})
+        return albums
+
+    def top_vk_photos(self, album, max_images=5):
+        files = []
+        album = album
+        params_photo = {
+            'album_id': album,
+            'photo_sizes': 1,
+            'extended': 1,
+        }
+        res_photo = requests.get(f'{self.url}/photos.get', params={**self.params, **params_photo})
+        for i in res_photo.json()['response']['items'][:-(max_images + 1):-1]:
+            file = i['sizes'][len(i['sizes']) - 1]
+            files.append({
+                'file_name': f'{i["likes"]["count"]}.jpg',
+                'size': file['type'],
+                'file_path': file['url'],
+            })
+        return files
 
 
-def top_vk_photos(vk_id: str, max_images=5):
-    files = []
-    album = 'profile'
-    vk_token = 'vk1.a.3PUEDymMQ9XJziADuP1AapWqsWa1c1AARVGtumN5CgV8LW6hlWPpCKRLKuhdDduu9fSVLXfAhZSM_' \
-               'pUi98rVQvTJYvQPNqQ3TiRjU4oBTgsbk1fB75CR8_dfm27bp2WGxlaN7prnCRTxYtzygeLNDo4PYMGeqc6b' \
-               'puPAduIElw9u49RUeKC_FMa1TgWUi0nK'
-    version = '5.131'
-    url = 'https://api.vk.com/method'
-    params = {'access_token': vk_token,
-              'v': version,
-              'users_id': vk_id,
-              'album_id': album,
-              'photo_sizes': 1
-              }
-    response = requests.get(f'{url}/photos.get', params={**params, 'extended': 1})
-    for i in response.json()['response']['items'][:-(max_images+1):-1]:
-        file = i['sizes'][len(i['sizes']) - 1]
-        file_name = f'{i["likes"]["count"]}.jpg'
-        size = file['type']
-        file_path = file['url']
-        files.append(create_json(file_name, size, file_path))
-    return files
+# a = VK('9267781')
+# print(a.get_albums())
+# print(a.top_vk_photos('278987826'))
+

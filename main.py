@@ -1,6 +1,6 @@
 import google_drive
 import yandex_disk
-import vk
+from vk import VK
 
 
 def main():
@@ -11,13 +11,17 @@ def main():
             return
         elif cloud == 'google' or cloud == 'yandex':
             id_vk = input('Введите id пользователя VK: ')
+            login = VK(id_vk)
+            for i in login.get_albums():
+                print(f'ID: {list(i.keys())[0]}, name: {list(i.values())[0]}')
+            album = input('Album ID: ')
             max_photo = input('Ввдите количество фото (по умолчанию будет выгружаться 5): ')
             if not max_photo.isnumeric():
                 print('Error')
-                files = vk.top_vk_photos(id_vk)
+                files = login.top_vk_photos(album)
             else:
                 print('Excellent')
-                files = vk.top_vk_photos(id_vk, max_photo)
+                files = login.top_vk_photos(album, max_photo)
             if cloud == 'yandex':
                 token = input('Введите Ваш токен YandexDisk: ')
                 ya_uploader = yandex_disk.YaUploader(token)
