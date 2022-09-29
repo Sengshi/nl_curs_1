@@ -15,7 +15,7 @@ def main():
             for k, v in login.get_albums().items():
                 print(f'ID: {k}, name: {v}')
             album = input('Album ID: ')
-            if album not in login.get_albums():
+            if album not in login.get_albums().keys():
                 print('Нет такого альбома!')
                 return
                 # album = 'profile'
