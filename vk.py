@@ -12,10 +12,10 @@ class VK:
         self.url = 'https://api.vk.com/method'
 
     def get_albums(self):
-        albums = [{'profile': 'Photo profiles'}]
+        albums = {'profile': 'Photo profiles'}
         res_albums = requests.get(f'{self.url}/photos.getAlbums', params={**self.params})
         for i in res_albums.json()['response']['items']:
-            albums.append({i['id']: i['title']})
+            albums[str(i['id'])] = i['title']
         return albums
 
     def top_vk_photos(self, album, max_images=5):

@@ -12,10 +12,14 @@ def main():
         elif cloud == 'google' or cloud == 'yandex':
             id_vk = input('Введите id пользователя VK: ')
             login = VK(id_vk)
-            for i in login.get_albums():
-                print(f'ID: {list(i.keys())[0]}, name: {list(i.values())[0]}')
+            for k, v in login.get_albums().items():
+                print(f'ID: {k}, name: {v}')
             album = input('Album ID: ')
-            max_photo = input('Ввдите количество фото (по умолчанию будет выгружаться 5): ')
+            if album not in login.get_albums():
+                print('Нет такого альбома!')
+                return
+                # album = 'profile'
+            max_photo = input('Ввдите количество фото: ')
             if not max_photo.isnumeric():
                 print('Error')
                 files = login.top_vk_photos(album)
