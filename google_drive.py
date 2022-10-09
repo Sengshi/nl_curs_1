@@ -1,4 +1,3 @@
-import json
 import os.path
 import shutil
 import requests
@@ -43,29 +42,27 @@ class GoogleUploader:
                 exist_files.append(i['name'])
             if not os.path.exists(dir_path):
                 os.mkdir(dir_path)
-            for i in file_param:
-                with open(os.path.join(dir_path, i['file_name']), 'wb') as temp_file:
-                    temp_file.write(requests.get(i['file_path']).content)
-                with open(os.path.join(dir_path, f'temp.json'), 'w', encoding='utf8') as temp:
-                    json.dump(file_param, temp, indent=3)
             for file_name in file_param:
-                if file_name['file_name'] not in exist_files:
-                    name = file_name['file_name']
+                temp = f'{file_name["index"]}_{file_name["file_name"]}'
+                with open(os.path.join(dir_path, temp), 'wb') as temp_file:
+                    temp_file.write(requests.get(file_name['file_path']).content)
+                if temp not in exist_files:
+                    name = temp
                 else:
                     param = file_name['file_name'].split('.')
-                    name = f'{param[0]}_{date.today().strftime("%d-%m-%Y")}.{param[1]}'
+                    name = f'{file_name["index"]}_{param[0]}_{date.today().strftime("%d-%m-%Y")}.{param[1]}'
                 if name not in exist_files:
                     file_metadata = {
                         'name': name,
                         'parents': [folder_id],
                     }
-                    media = MediaFileUpload(os.path.join(dir_path, file_name['file_name']), mimetype='image/jpeg')
+                    media = MediaFileUpload(os.path.join(dir_path, temp), mimetype='image/jpeg')
                     service.files().create(body=file_metadata,
                                            media_body=media,
                                            fields='id').execute()
                     print(f'{name} Upload Complete!')
                 else:
-                    print(f'Уже существуют файлы {file_name["file_name"]} и {name} в папке {vk_id}')
+                    print(f'Уже существуют файлы в папке {vk_id}')
                     continue
             shutil.rmtree(dir_path)
         except HttpError as error:

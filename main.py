@@ -18,13 +18,11 @@ def main():
             if album not in login.get_albums().keys():
                 print('Нет такого альбома!')
                 return
-                # album = 'profile'
             max_photo = input('Ввдите количество фото: ')
             if not max_photo.isnumeric():
-                print('Error')
-                files = login.top_vk_photos(album)
+                print('Введите число')
+                return
             else:
-                print('Excellent')
                 files = login.top_vk_photos(album, max_photo)
             if cloud == 'yandex':
                 token = input('Введите Ваш токен YandexDisk: ')
