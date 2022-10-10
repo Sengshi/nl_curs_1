@@ -9,8 +9,8 @@ from datetime import date, datetime
 
 
 class GoogleUploader:
-    def __init__(self, secret_file: str):
-        self.secret_file = secret_file
+    def __init__(self):
+        self.secret_file = 'client_secrets.json'
         self.scope = 'https://www.googleapis.com/auth/drive'
 
     def upload(self, vk_id: str, file_param, dir_path='temp'):
@@ -61,13 +61,13 @@ class GoogleUploader:
                         service.files().create(body=file_metadata,
                                                media_body=media,
                                                fields='id').execute()
-                        logging.write(f'{datetime} {name} Upload Complete!')
+                        logging.write(f'{datetime.today()} {name} Upload Complete!\n')
                         print(f'{name} Upload Complete!')
                     else:
-                        logging.write(f'{datetime} Уже существуют файлы в папке {vk_id}')
+                        logging.write(f'{datetime.today()} Уже существуют файлы в папке {vk_id}\n')
                         print(f'Уже существуют файлы в папке {vk_id}')
                         continue
                 shutil.rmtree(dir_path)
             except HttpError as error:
-                logging.write(f'{datetime} An error occurred: {error}')
+                logging.write(f'{datetime.today()} An error occurred: {error}\n')
                 print(f'An error occurred: {error}')

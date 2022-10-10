@@ -29,8 +29,7 @@ def main():
                 ya_uploader = yandex_disk.YaUploader(token)
                 ya_uploader.upload(id_vk, files)
             elif cloud == 'google':
-                secret_file = input('Введите имя файла для Google API OATH2: ')
-                google_uploader = google_drive.GoogleUploader(secret_file)
+                google_uploader = google_drive.GoogleUploader()
                 google_uploader.upload(id_vk, files)
         else:
             print('Введите доступные команды!')
