@@ -1,12 +1,12 @@
 import requests
-from config import vk_token, version
+from config import vk_token
 
 
 class VK:
     def __init__(self, vk_id):
         self.params = {
             'access_token': vk_token,
-            'v': version,
+            'v': '5.131',
             'owner_id': vk_id,
         }
         self.url = 'https://api.vk.com/method'
@@ -38,9 +38,3 @@ class VK:
             })
             index += 1
         return files
-
-
-# a = VK('9267781')
-# print(a.get_albums())
-# print(a.top_vk_photos('278987826'))
-
