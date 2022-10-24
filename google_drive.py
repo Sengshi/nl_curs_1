@@ -29,8 +29,7 @@ class GoogleUploader:
                         'name': vk_id,
                         'mimeType': 'application/vnd.google-apps.folder'
                     }
-                    folder = service.files().create(body=folder_metadata, fields='id'
-                                                    ).execute()
+                    folder = service.files().create(body=folder_metadata, fields='id').execute()
                     folder_id = folder.get('id')
                 else:
                     folder_id = items[0]['id']
