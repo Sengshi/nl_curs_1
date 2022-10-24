@@ -54,7 +54,6 @@ class GoogleUploader:
                         name = f'{file_name["index"]}_{param[0]}_{date.today().strftime("%d-%m-%Y")}.{param[1]}'
                     if name not in exist_files:
                         logging.write(f'{datetime.today()} {name} Start upload\n')
-                        print(f'{datetime.today()} {name} Upload Complete!')
                         file_metadata = {
                             'name': name,
                             'parents': [folder_id],
@@ -64,12 +63,9 @@ class GoogleUploader:
                                                media_body=media,
                                                fields='id').execute()
                         logging.write(f'{datetime.today()} {name} Upload Complete!\n')
-                        print(f'{datetime.today()} {name} Upload Complete!')
                     else:
                         logging.write(f'{datetime.today()} Уже существуют файлы в папке {vk_id}\n')
-                        print(f'{datetime.today()} Уже существуют файлы в папке {vk_id}')
                         continue
                 shutil.rmtree(dir_path)
             except HttpError as error:
                 logging.write(f'{datetime.today()} An error occurred: {error}\n')
-                print(f'An error occurred: {error}')
