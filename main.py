@@ -10,7 +10,7 @@ def main():
             print('Пока!!!')
             return
         elif cloud == 'google' or cloud == 'yandex':
-            id_vk = input('Введите id пользователя VK: ')
+            id_vk = input('Введите id или username пользователя VK: ')
             login = VK(id_vk)
             for k, v in login.get_albums().items():
                 print(f'ID: {k}, name: {v}')

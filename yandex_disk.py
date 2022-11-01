@@ -17,17 +17,21 @@ class YaUploader:
                    'Authorization': f'OAuth {ya_token}'
                    }
         res = requests.get(f'{url}?path={vk_id}', headers=headers).json()
-        for i in res['_embedded']['items']:
-            exist_files.append(i['name'])
-        requests.put(f'{url}?path={vk_id}', headers=headers).json()
+        try:
+            if res['error'] == 'DiskNotFoundError':
+                requests.put(f'{url}?path={vk_id}', headers=headers).json()
+        except KeyError:
+            for i in res['_embedded']['items']:
+                exist_files.append(i['name'])
         for i in file_param:
             date = datetime.date.today()
-            if i['file_name'] not in exist_files:
-                file_name = i['file_name']
-            elif f'{i["likes"]}_{date}.jpg' not in exist_files:
-                file_name = f'{i["likes"]}_{date}.jpg'
+            if f'{i["index"]}_{i["file_name"]}' not in exist_files:
+                file_name = f'{i["index"]}_{i["file_name"]}'
+            elif f'{i["index"]}_{i["file_name"].strip(".")[0]}_{date}.jpg' not in exist_files:
+                file_name = f'{i["index"]}_{i["file_name"].strip(".")[0]}_{date}.jpg'
             else:
-                print(f'Уже существуют файлы {i["file_name"]} и {i["likes"]}_{date}.jpg в папке {vk_id}')
+                print(f'Уже существуют файлы {i["index"]}_{i["file_name"]} и '
+                      f'{i["index"]}_{i["file_name"].strip(".")[0]}_{date}.jpg в папке {vk_id}')
                 continue
             res = requests.get(i['file_path'])
             response = requests.get(f'{url}/upload?path={vk_id}/{file_name}&overwrite=False',
