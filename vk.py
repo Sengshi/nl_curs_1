@@ -57,8 +57,8 @@ class VK:
                 'file_path': file['url'],
             })
             index += 1
-        json_file = json.dumps(files, indent=4)
-        with open('out.json', 'w', encoding='utf8') as json_out:
-            json_out.write(json_file)
+        # json_file = json.dumps(files, indent=4)
+        # with open('out.json', 'w', encoding='utf8') as json_out:
+        #     json_out.write(json_file)
         out_json(files)
         return files
