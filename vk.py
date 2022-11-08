@@ -3,6 +3,14 @@ import configparser
 import json
 
 
+def out_json(files):
+    out = []
+    for i in files:
+        out.append({'file_name': i['file_name'], 'size': i['size']})
+    with open('out2.json', 'w') as outfile:
+        outfile.write(json.dumps(out, indent=4))
+
+
 class VK:
     def __init__(self, vk_id):
         config = configparser.ConfigParser()
@@ -52,4 +60,5 @@ class VK:
         json_file = json.dumps(files, indent=4)
         with open('out.json', 'w', encoding='utf8') as json_out:
             json_out.write(json_file)
+        out_json(files)
         return files
